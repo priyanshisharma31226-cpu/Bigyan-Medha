@@ -3,183 +3,878 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>অষ্টম শ্রেণি - পরিবেশ ও বিজ্ঞান কুইজ</title>
+    <title>বিজ্ঞান মেধা - অষ্টম শ্রেণি (WBBSE)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #e0f7fa, #80deea);
+        :root {
+            --primary: #0d9488;
+            --primary-dark: #0f766e;
+            --secondary: #3b82f6;
+            --bg-gradient: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --correct-bg: #dcfce7;
+            --correct-border: #22c55e;
+            --correct-text: #15803d;
+            --wrong-bg: #fee2e2;
+            --wrong-border: #ef4444;
+            --wrong-text: #b91c1c;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 0;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
         }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 600px;
+
+        .app-container {
+            background: var(--card-bg);
             width: 100%;
+            max-width: 680px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(13, 148, 136, 0.12);
+            overflow: hidden;
+            border: 1px solid rgba(13, 148, 136, 0.15);
         }
-        h1 {
-            color: #00796b;
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .app-title h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .app-title p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .high-score-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Screens */
+        .screen {
+            padding: 24px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Screen */
+        .welcome-box {
             text-align: center;
-            font-size: 24px;
+            margin-bottom: 24px;
+        }
+
+        .welcome-box h2 {
+            font-size: 20px;
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+        }
+
+        .welcome-box p {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px;
             margin-bottom: 20px;
         }
-        .question {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 15px;
-        }
-        .options button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            background: #f1f8e9;
-            border: 2px solid #c8e6c9;
-            border-radius: 8px;
-            font-size: 16px;
+
+        .chapter-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 16px;
             cursor: pointer;
-            text-align: left;
-            transition: 0.3s;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
-        .options button:hover {
-            background: #dcedc8;
-            border-color: #8bc34a;
+
+        .chapter-card:hover {
+            border-color: var(--primary);
+            background: #f0fdfa;
+            transform: translateY(-2px);
         }
-        .options button.correct {
-            background: #c8e6c9 !important;
-            border-color: #4caf50 !important;
-            color: #1b5e20;
+
+        .chapter-icon {
+            font-size: 28px;
+            background: white;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-        .options button.wrong {
-            background: #ffcdd2 !important;
-            border-color: #f44336 !important;
-            color: #b71c1c;
+
+        .chapter-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
         }
-        #next-btn, #restart-btn {
-            display: none;
+
+        .chapter-info span {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .mega-test-btn {
             width: 100%;
-            padding: 12px;
-            background: #00796b;
+            padding: 15px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 600;
             cursor: pointer;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+            transition: transform 0.2s;
+        }
+
+        .mega-test-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Quiz Screen */
+        .quiz-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .timer-pill {
+            background: #fef3c7;
+            color: #b45309;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timer-pill.danger {
+            background: #fee2e2;
+            color: #b91c1c;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            50% { opacity: 0.6; }
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            margin-bottom: 20px;
+        }
+
+        .chapter-tag {
+            display: inline-block;
+            background: #ccfbf1;
+            color: var(--primary-dark);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 19px;
+            font-weight: 600;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 14px 16px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-main);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #f0fdfa;
+            border-color: var(--primary);
+        }
+
+        .option-prefix {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .option-btn.correct {
+            background: var(--correct-bg);
+            border-color: var(--correct-border);
+            color: var(--correct-text);
+            font-weight: 600;
+        }
+
+        .option-btn.correct .option-prefix {
+            background: var(--correct-border);
+            color: white;
+        }
+
+        .option-btn.wrong {
+            background: var(--wrong-bg);
+            border-color: var(--wrong-border);
+            color: var(--wrong-text);
+        }
+
+        .option-btn.wrong .option-prefix {
+            background: var(--wrong-border);
+            color: white;
+        }
+
+        .explanation-box {
+            margin-top: 16px;
+            padding: 14px;
+            background: #eff6ff;
+            border-left: 4px solid var(--secondary);
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1e3a8a;
+            display: none;
+        }
+
+        .quiz-footer {
+            margin-top: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-quit {
+            background: transparent;
+            border: 1px solid #cbd5e1;
+            color: var(--text-muted);
+            padding: 10px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-next {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: none;
+        }
+
+        .btn-next:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Result Screen */
+        .result-summary {
+            text-align: center;
+            padding: 10px 0 20px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            box-shadow: 0 10px 25px rgba(13, 148, 136, 0.3);
+        }
+
+        .score-circle .big-num {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .score-circle .small-num {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .grade-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: #fef3c7;
+            color: #92400e;
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stat-box h4 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .stat-box p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .review-section {
+            margin-top: 20px;
+            max-height: 280px;
+            overflow-y: auto;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 16px;
+        }
+
+        .review-section h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .review-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            border-left: 4px solid #cbd5e1;
+        }
+
+        .review-item.rev-correct { border-left-color: var(--correct-border); }
+        .review-item.rev-wrong { border-left-color: var(--wrong-border); }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
             margin-top: 20px;
         }
-        #next-btn:hover, #restart-btn:hover {
-            background: #004d40;
+
+        .action-buttons button {
+            flex: 1;
+            padding: 13px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
         }
-        .score-card {
+
+        .btn-home {
+            background: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        .btn-retry {
+            background: var(--primary);
+            color: white;
+        }
+
+        .footer-credit {
+            margin-top: 16px;
+            font-size: 12px;
+            color: var(--text-muted);
             text-align: center;
-            font-size: 20px;
-            color: #333;
         }
     </style>
 </head>
 <body>
 
-<div class="container" id="quiz-box">
-    <h1>অষ্টম শ্রেণি: পরিবেশ ও বিজ্ঞান কুইজ</h1>
-    <div id="question-container">
-        <div class="question" id="question-text">প্রশ্ন লোড হচ্ছে...</div>
-        <div class="options" id="options-container"></div>
+<div class="app-container">
+    <!-- App Header -->
+    <div class="app-header">
+        <div class="app-title">
+            <h1>🔬 বিজ্ঞান মেধা</h1>
+            <p>অষ্টম শ্রেণি • পরিবেশ ও বিজ্ঞান (WBBSE)</p>
+        </div>
+        <div class="high-score-badge" id="high-score-display">🏆 সেরা স্কোর: 0</div>
     </div>
-    <button id="next-btn" onclick="nextQuestion()">পরবর্তী প্রশ্ন</button>
+
+    <!-- Screen 1: Home / Chapter Selection -->
+    <div class="screen active" id="home-screen">
+        <div class="welcome-box">
+            <h2>তোমার পছন্দের অধ্যায় বেছে নাও</h2>
+            <p>প্রতিটি প্রশ্নের জন্য ৩০ সেকেন্ড সময় পাবে। সঠিক উত্তরে +১ নম্বর।</p>
+        </div>
+
+        <div class="chapter-grid" id="chapter-list"></div>
+
+        <button class="mega-test-btn" onclick="startQuiz('all')">
+            🚀 সম্পূর্ণ সিলেবাস মেগা মক টেস্ট (সব অধ্যায়)
+        </button>
+    </div>
+
+    <!-- Screen 2: Quiz Interface -->
+    <div class="screen" id="quiz-screen">
+        <div class="quiz-top-bar">
+            <span id="question-counter">প্রশ্ন ১ / ১০</span>
+            <span id="live-score">স্কোর: ০</span>
+            <div class="timer-pill" id="timer-box">⏱️ <span id="time-left">30</span>s</div>
+        </div>
+
+        <div class="progress-track">
+            <div class="progress-fill" id="progress-bar"></div>
+        </div>
+
+        <div class="question-card">
+            <span class="chapter-tag" id="current-chapter-tag">অধ্যায়</span>
+            <div class="question-text" id="question-text">প্রশ্ন লোড হচ্ছে...</div>
+        </div>
+
+        <div class="options-list" id="options-container"></div>
+
+        <div class="explanation-box" id="explanation-box"></div>
+
+        <div class="quiz-footer">
+            <button class="btn-quit" onclick="goHome()">← ফিরে যান</button>
+            <button class="btn-next" id="next-btn" onclick="nextQuestion()">পরবর্তী প্রশ্ন →</button>
+        </div>
+    </div>
+
+    <!-- Screen 3: Result & Review -->
+    <div class="screen" id="result-screen">
+        <div class="result-summary">
+            <div class="score-circle">
+                <span class="big-num" id="final-score">0</span>
+                <span class="small-num" id="final-total">মোট 0</span>
+            </div>
+            <div class="grade-badge" id="grade-text">অসাধারণ!</div>
+            <p id="result-message" style="color: var(--text-muted); font-size: 15px;"></p>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-box">
+                <h4 style="color: var(--correct-text);" id="stat-correct">0</h4>
+                <p>সঠিক উত্তর</p>
+            </div>
+            <div class="stat-box">
+                <h4 style="color: var(--wrong-text);" id="stat-wrong">0</h4>
+                <p>ভুল উত্তর</p>
+            </div>
+            <div class="stat-box">
+                <h4 style="color: var(--secondary);" id="stat-percent">0%</h4>
+                <p>সফলতার হার</p>
+            </div>
+        </div>
+
+        <div class="review-section">
+            <h3>📋 উত্তরপত্র পর্যালোচনা (Answer Review)</h3>
+            <div id="review-list"></div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn-home" onclick="goHome()">🏠 হোম পেজ</button>
+            <button class="btn-retry" id="retry-btn">🔄 আবার পরীক্ষা দিন</button>
+        </div>
+    </div>
 </div>
 
+<div class="footer-credit">বিজ্ঞান মেধা কুইজ অ্যাপ • অষ্টম শ্রেণির শিক্ষার্থীদের জন্য নির্মিত</div>
+
 <script>
-    const quizData = [
-        {
-            question: "১. তাপ প্রয়োগে সাধারণত পদার্থের আয়তন কী হয়?",
-            options: ["কমে যায়", "বেড়ে যায়", "একই থাকে", "প্রথমে বাড়ে পরে কমে"],
-            answer: 1
-        },
-        {
-            question: "২. কোন কোষ অঙ্গাণুকে 'কোষের পাওয়ার হাউস' বলা হয়?",
-            options: ["রাইবোজোম", "মাইটোকন্ড্রিয়া", "গলগি বডি", "নিউক্লিয়াস"],
-            answer: 1
-        },
-        {
-            question: "৩. বায়ুমণ্ডলে সবচেয়ে বেশি পরিমাণে কোন গ্যাসটি থাকে?",
-            options: ["অক্সিজেন", "নাইট্রোজেন", "কার্বন ডাইঅক্সাইড", "আর্গন"],
-            answer: 1
-        },
-        {
-            question: "৪. জলের অণুতে হাইড্রোজেন ও অক্সিজেনের পরমাণুর অনুপাত কত?",
-            options: ["১:২", "২:১", "১:১", "২:২"],
-            answer: 1
-        },
-        {
-            question: "৫. মরিচা পড়ার জন্য নিচের কোন দুটি উপাদান আবশ্যিক?",
-            options: ["জল ও অক্সিজেন", "নাইট্রোজেন ও হিলিয়াম", "হাইড্রোজেন ও কার্বন ডাইঅক্সাইড", "শুধুমাত্র জল"],
-            answer: 0
+    // Sound Synthesizer (No external audio files needed)
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playTone(type) {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        if (type === 'correct') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+            osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.25);
+        } else {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(180, audioCtx.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.3);
         }
+    }
+
+    // WBBSE Class 8 Science Question Bank
+    const chapters = [
+        { id: "force", title: "বল ও চাপ", icon: "⚖️" },
+        { id: "heat", title: "তাপ ও আলো", icon: "🔥" },
+        { id: "matter", title: "মৌল, যৌগ ও রাসায়নিক বিক্রিয়া", icon: "🧪" },
+        { id: "cell", title: "জীবদেহের গঠন (কোষ)", icon: "🧬" },
+        { id: "microbes", title: "অণুজীবের জগৎ", icon: "🦠" },
+        { id: "environment", title: "পরিবেশ ও জনস্বাস্থ্য", icon: "🌍" }
     ];
 
-    let currentQuestionIndex = 0;
-    let score = 0;
+    const questionBank = [
+        // বল ও চাপ
+        { chapter: "force", q: "SI পদ্ধতিতে বলের একক কী?", options: ["ডাইন", "নিউটন", "পাস্কাল", "জুল"], ans: 1, exp: "SI পদ্ধতিতে বলের একক নিউটন (N) এবং CGS পদ্ধতিতে ডাইন।" },
+        { chapter: "force", q: "চাপের SI একক কোনটি?", options: ["নিউটন", "পাস্কাল", "ওয়াট", "ক্যালোরি"], ans: 1, exp: "একক ক্ষেত্রফলের ওপর প্রযুক্ত বলকে চাপ বলে। এর SI একক পাস্কাল (Pa) বা নিউটন/বর্গমিটার।" },
+        { chapter: "force", q: "পৃথিবীর কেন্দ্রে কোনো বস্তুর ওজন কত হবে?", options: ["অসীম", "পৃথিবীপৃষ্ঠের সমান", "শূন্য", "অর্ধেক"], ans: 2, exp: "পৃথিবীর কেন্দ্রে অভিকর্ষজ ত্বরণ (g)-এর মান শূন্য হওয়ায় বস্তুর ওজন শূন্য হয়।" },
+        { chapter: "force", q: "তরলের গভীরতা বাড়লে তরলের চাপ কী হয়?", options: ["কমে যায়", "বেড়ে যায়", "একই থাকে", "শূন্য হয়ে যায়"], ans: 1, exp: "তরলের চাপ গভীরতার সমানুপাতিক (P = hdg), তাই গভীরতা বাড়লে চাপ বাড়ে।" },
 
-    const questionText = document.getElementById("question-text");
-    const optionsContainer = document.getElementById("options-container");
-    const nextBtn = document.getElementById("next-btn");
+        // তাপ ও আলো
+        { chapter: "heat", q: "তাপ প্রয়োগে সাধারণত পদার্থের আয়তন কী হয়?", options: ["কমে যায়", "বেড়ে যায়", "একই থাকে", "প্রথমে কমে পরে বাড়ে"], ans: 1, exp: "তাপ প্রয়োগ করলে পদার্থের অণুগুলোর গতিশক্তি বেড়ে যায়, ফলে আয়তন প্রসারিত হয়।" },
+        { chapter: "heat", q: "সেলসিয়াস ও ফারেনহাইট স্কেলের পাঠ কোন তাপমাত্রায় সমান হয়?", options: ["0°", "-40°", "100°", "40°"], ans: 1, exp: "-40°C এবং -40°F তাপমাত্রায় উভয় স্কেলের পাঠ সমান থাকে।" },
+        { chapter: "heat", q: "সমতল দর্পণে আপতন কোণ 45° হলে প্রতিফলন কোণ কত হবে?", options: ["90°", "45°", "0°", "135°"], ans: 1, exp: "প্রতিফলনের সূত্রানুসারে, আপতন কোণ ও প্রতিফলন কোণ সর্বদা সমান হয়।" },
+        { chapter: "heat", q: "গাড়ির ভিউ ফাইন্ডার বা রিয়ার ভিউ মিরর হিসেবে কোন দর্পণ ব্যবহৃত হয়?", options: ["সমতল দর্পণ", "অবতল দর্পণ", "উত্তল দর্পণ", "গোলীয় লেন্স"], ans: 2, exp: "উত্তল দর্পণ অনেক বড় জায়গার সোজা ও ছোট প্রতিবিম্ব তৈরি করে, তাই এটি ব্যবহৃত হয়।" },
+
+        // মৌল, যৌগ ও রাসায়নিক বিক্রিয়া
+        { chapter: "matter", q: "জলের অণুতে হাইড্রোজেন ও অক্সিজেনের পরমাণুর সংখ্যার অনুপাত কত?", options: ["১:২", "২:১", "১:১", "২:২"], ans: 1, exp: "জলের সংকেত H₂O, অর্থাৎ ২টি হাইড্রোজেন ও ১টি অক্সিজেন পরমাণু থাকে।" },
+        { chapter: "matter", q: "নিচের কোনটি একটি মৃদু তড়িৎবিশ্লেষ্য পদার্থ?", options: ["খাদ্যলবণ (NaCl)", "সালফিউরিক অ্যাসিড", "অ্যাসিটিক অ্যাসিড", "কস্টিক সোডা"], ans: 2, exp: "অ্যাসিটিক অ্যাসিড (CH₃COOH) জলীয় দ্রবণে আংশিকভাবে আয়নিত হয় বলে এটি মৃদু তড়িৎবিশ্লেষ্য।" },
+        { chapter: "matter", q: "মরিচা পড়ার জন্য নিচের কোন দুটি উপাদান আবশ্যিক?", options: ["জল ও অক্সিজেন", "নাইট্রোজেন ও জল", "হাইড্রোজেন ও অক্সিজেন", "শুধুমাত্র কার্বন ডাইঅক্সাইড"], ans: 0, exp: "লোহায় মরিচা পড়তে জলীয় বাষ্প (জল) এবং অক্সিজেন—উভয়ের উপস্থিতি প্রয়োজন।" },
+        { chapter: "matter", q: "কোন অধাতুটি তাপ ও তড়িতের সুপরিবাহী?", options: ["সালফার", "গ্রাফাইট", "ফসফরাস", "আয়োডিন"], ans: 1, exp: "গ্রাফাইট কার্বনের একটি রূপভেদ, যা অধাতু হওয়া সত্ত্বেও মুক্ত ইলেকট্রন থাকায় তড়িৎ পরিবহন করে।" },
+
+        // জীবদেহের গঠন
+        { chapter: "cell", q: "কোন কোষ অঙ্গাণুকে 'কোষের শক্তিঘর' বা পাওয়ার হাউস বলা হয়?", options: ["রাইবোজোম", "মাইটোকন্ড্রিয়া", "গলগি বডি", "লাইসোজোম"], ans: 1, exp: "মাইটোকন্ড্রিয়ার মধ্যে শ্বসনের মাধ্যমে ATP রূপে শক্তি উৎপন্ন হয়।" },
+        { chapter: "cell", q: "প্রোটিন সংশ্লেষে সাহায্যকারী কোষ অঙ্গাণু কোনটি?", options: ["রাইবোজোম", "সেন্ট্রোজোম", "প্লাস্টিড", "ভ্যাকুওল"], ans: 0, exp: "রাইবোজোমকে 'কোষের প্রোটিন ফ্যাক্টরি' বলা হয়।" },
+        { chapter: "cell", q: "উদ্ভিদকোষের কোষপ্রাচীরের প্রধান উপাদান কী?", options: ["কাইটিন", "সেলুলোজ", "প্রোটিন", "লিপিড"], ans: 1, exp: "উদ্ভিদের কোষপ্রাচীর প্রধানত সেলুলোজ নামক শর্করা দিয়ে গঠিত।" },
+        { chapter: "cell", q: "কোন কোষ অঙ্গাণুকে 'আত্মঘাতী থলি' (Suicidal Bag) বলা হয়?", options: ["নিউক্লিয়াস", "লাইসোজোম", "রাইবোজোম", "ক্লোরোপ্লাস্ট"], ans: 1, exp: "লাইসোজোমে আর্দ্রবিশ্লেষক উৎসেচক থাকে যা প্রয়োজনে নিজ কোষকেও ধ্বংস করতে পারে।" },
+
+        // অণুজীবের জগৎ
+        { chapter: "microbes", q: "দই তৈরিতে কোন উপকারী ব্যাকটেরিয়া সাহায্য করে?", options: ["ভিব্রিও কলেরি", "ল্যাকটোব্যাসিলাস", "রাইজোবিয়াম", "ই. কোলাই"], ans: 1, exp: "ল্যাকটোব্যাসিলাস ব্যাকটেরিয়া দুধের ল্যাকটোজকে ল্যাকটিক অ্যাসিডে পরিণত করে দই জমায়।" },
+        { chapter: "microbes", q: "ম্যালেরিয়া রোগের জীবাণু কোন ধরনের অণুজীব?", options: ["ব্যাকটেরিয়া", "ভাইরাস", "প্রোটোজোয়া (আদ্যপ্রাণী)", "ছত্রাক"], ans: 2, exp: "প্লাজমোডিয়াম ভাইভ্যাক্স নামক প্রোটোজোয়া ম্যালেরিয়া রোগ সৃষ্টি করে।" },
+        { chapter: "microbes", q: "শিম্বগোত্রীয় উদ্ভিদের মূলে বসবাসকারী মিথোজীবী ব্যাকটেরিয়া কোনটি?", options: ["রাইজোবিয়াম", "অ্যাজোটোব্যাক্টর", "নাইট্রোব্যাক্টর", "ক্লসট্রিডিয়াম"], ans: 0, exp: "রাইজোবিয়াম বাতাসের নাইট্রোজেন আবদ্ধ করে মাটির উর্বরতা বাড়ায়।" },
+
+        // পরিবেশ ও জনস্বাস্থ্য
+        { chapter: "environment", q: "বায়ুমণ্ডলে সবচেয়ে বেশি পরিমাণে কোন গ্যাসটি থাকে?", options: ["অক্সিজেন", "নাইট্রোজেন", "কার্বন ডাইঅক্সাইড", "আর্গন"], ans: 1, exp: "বায়ুমণ্ডলে নাইট্রোজেনের পরিমাণ প্রায় ৭৮.০৮%।" },
+        { chapter: "environment", q: "গ্রিনহাউস প্রভাবের জন্য সবচেয়ে বেশি দায়ী গ্যাস কোনটি?", options: ["অক্সিজেন", "নাইট্রোজেন", "কার্বন ডাইঅক্সাইড", "হিলিয়াম"], ans: 2, exp: "কার্বন ডাইঅক্সাইড (CO₂) পৃথিবীর বিকিরিত তাপ শোষণ করে বিশ্ব উষ্ণায়ন ঘটায়।" },
+        { chapter: "environment", q: "কয়লা ও পেট্রোলিয়াম কী ধরনের প্রাকৃতিক সম্পদ?", options: ["নবীকরণযোগ্য", "অনবীকরণযোগ্য", "অফুরন্ত", "কৃত্রিম"], ans: 1, exp: "জীবাশ্ম জ্বালানি একবার নিঃশেষ হয়ে গেলে তা দ্রুত পুনরায় তৈরি হয় না, তাই এগুলি অনবীকরণযোগ্য।" }
+    ];
+
+    let activeQuestions = [];
+    let currentIdx = 0;
+    let score = 0;
+    let timer;
+    let timeLeft = 30;
+    let currentCategory = 'all';
+    let userHistory = [];
+
+    // Load High Score
+    let highScore = localStorage.getItem('bigyanMedhaHighScore') || 0;
+    document.getElementById('high-score-display').innerText = `🏆 সেরা স্কোর: ${highScore}`;
+
+    // Render Chapter Cards on Home Screen
+    function initHome() {
+        const list = document.getElementById('chapter-list');
+        list.innerHTML = '';
+        chapters.forEach(ch => {
+            const count = questionBank.filter(q => q.chapter === ch.id).length;
+            const card = document.createElement('div');
+            card.className = 'chapter-card';
+            card.onclick = () => startQuiz(ch.id);
+            card.innerHTML = `
+                <div class="chapter-icon">${ch.icon}</div>
+                <div class="chapter-info">
+                    <h3>${ch.title}</h3>
+                    <span>${count}টি প্রশ্ন</span>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function switchScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function startQuiz(category) {
+        currentCategory = category;
+        if (category === 'all') {
+            activeQuestions = [...questionBank].sort(() => Math.random() - 0.5).slice(0, 12);
+        } else {
+            activeQuestions = questionBank.filter(q => q.chapter === category).sort(() => Math.random() - 0.5);
+        }
+
+        currentIdx = 0;
+        score = 0;
+        userHistory = [];
+        document.getElementById('live-score').innerText = `স্কোর: 0`;
+        switchScreen('quiz-screen');
+        loadQuestion();
+    }
 
     function loadQuestion() {
-        nextBtn.style.display = "none";
-        let currentQuiz = quizData[currentQuestionIndex];
-        questionText.innerText = currentQuiz.question;
-        optionsContainer.innerHTML = "";
+        clearInterval(timer);
+        timeLeft = 30;
+        updateTimerUI();
+        startTimer();
 
-        currentQuiz.options.forEach((option, index) => {
-            const btn = document.createElement("button");
-            btn.innerText = option;
-            btn.onclick = () => selectOption(index, btn);
+        const qObj = activeQuestions[currentIdx];
+        const chObj = chapters.find(c => c.id === qObj.chapter);
+
+        document.getElementById('question-counter').innerText = `প্রশ্ন ${currentIdx + 1} / ${activeQuestions.length}`;
+        document.getElementById('current-chapter-tag').innerText = chObj ? chObj.title : 'সাধারণ বিজ্ঞান';
+        document.getElementById('question-text').innerText = qObj.q;
+
+        const progressPercent = ((currentIdx) / activeQuestions.length) * 100;
+        document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+        const expBox = document.getElementById('explanation-box');
+        expBox.style.display = 'none';
+        expBox.innerText = '';
+
+        document.getElementById('next-btn').style.display = 'none';
+
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+        const prefixes = ['ক', 'খ', 'গ', 'ঘ'];
+
+        qObj.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerHTML = `<span class="option-prefix">${prefixes[idx]}</span> <span>${opt}</span>`;
+            btn.onclick = () => handleAnswer(idx, btn);
             optionsContainer.appendChild(btn);
         });
     }
 
-    function selectOption(selectedIndex, selectedButton) {
-        let currentQuiz = quizData[currentQuestionIndex];
-        const buttons = optionsContainer.getElementsByTagName("button");
+    function startTimer() {
+        timer = setInterval(() => {
+            timeLeft--;
+            updateTimerUI();
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                handleTimeOut();
+            }
+        }, 1000);
+    }
 
-        if (selectedIndex === currentQuiz.answer) {
-            selectedButton.classList.add("correct");
-            score++;
+    function updateTimerUI() {
+        const timerBox = document.getElementById('timer-box');
+        document.getElementById('time-left').innerText = timeLeft;
+        if (timeLeft <= 7) {
+            timerBox.classList.add('danger');
         } else {
-            selectedButton.classList.add("wrong");
-            buttons[currentQuiz.answer].classList.add("correct");
+            timerBox.classList.remove('danger');
+        }
+    }
+
+    function handleAnswer(selectedIdx, selectedBtn) {
+        clearInterval(timer);
+        const qObj = activeQuestions[currentIdx];
+        const buttons = document.querySelectorAll('.option-btn');
+        const isCorrect = selectedIdx === qObj.ans;
+
+        if (isCorrect) {
+            selectedBtn.classList.add('correct');
+            score++;
+            document.getElementById('live-score').innerText = `স্কোর: ${score}`;
+            playTone('correct');
+        } else {
+            selectedBtn.classList.add('wrong');
+            buttons[qObj.ans].classList.add('correct');
+            playTone('wrong');
         }
 
-        for (let btn of buttons) {
-            btn.disabled = true;
-        }
+        buttons.forEach(btn => btn.disabled = true);
 
-        nextBtn.style.display = "block";
+        userHistory.push({
+            question: qObj.q,
+            userAns: qObj.options[selectedIdx],
+            correctAns: qObj.options[qObj.ans],
+            isCorrect: isCorrect
+        });
+
+        showExplanation(qObj.exp);
+    }
+
+    function handleTimeOut() {
+        const qObj = activeQuestions[currentIdx];
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons[qObj.ans].classList.add('correct');
+        buttons.forEach(btn => btn.disabled = true);
+        playTone('wrong');
+
+        userHistory.push({
+            question: qObj.q,
+            userAns: "সময় শেষ (উত্তর দেওয়া হয়নি)",
+            correctAns: qObj.options[qObj.ans],
+            isCorrect: false
+        });
+
+        showExplanation("⏱️ সময় শেষ! " + qObj.exp);
+    }
+
+    function showExplanation(text) {
+        const expBox = document.getElementById('explanation-box');
+        expBox.innerHTML = `💡 <strong>ব্যাখ্যা:</strong> ${text}`;
+        expBox.style.display = 'block';
+        document.getElementById('next-btn').style.display = 'block';
     }
 
     function nextQuestion() {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < quizData.length) {
+        currentIdx++;
+        if (currentIdx < activeQuestions.length) {
             loadQuestion();
         } else {
-            document.getElementById("quiz-box").innerHTML = `
-                <div class="score-card">
-                    <h1>কুইজ সমাপ্ত! 🎉</h1>
-                    <p>আপনার মোট স্কোর: <b>${score}</b> / ${quizData.length}</p>
-                    <button id="restart-btn" style="display:block;" onclick="location.reload()">আবার খেলুন</button>
-                </div>
-            `;
+            showResult();
         }
     }
 
-    loadQuestion();
+    function showResult() {
+        document.getElementById('progress-bar').style.width = '100%';
+        switchScreen('result-screen');
+
+        const total = activeQuestions.length;
+        const wrong = total - score;
+        const percent = Math.round((score / total) * 100);
+
+        if (score > highScore) {
+            highScore = score;
+            localStorage.setItem('bigyanMedhaHighScore', highScore);
+            document.getElementById('high-score-display').innerText = `🏆 সেরা স্কোর: ${highScore}`;
+        }
+
+        document.getElementById('final-score').innerText = score;
+        document.getElementById('final-total').innerText = `মোট ${total}`;
+        document.getElementById('stat-correct').innerText = score;
+        document.getElementById('stat-wrong').innerText = wrong;
+        document.getElementById('stat-percent').innerText = `${percent}%`;
+
+        let grade = "আরও অনুশীলন প্রয়োজন 📚";
+        let msg = "চিন্তা নেই, ভুলগুলো দেখে নিয়ে আবার চেষ্টা করো!";
+        if (percent >= 80) {
+            grade = "অসাধারণ পারফরম্যান্স! 🌟";
+            msg = "তোমার বিজ্ঞানের প্রস্তুতি দারুণ হয়েছে। এভাবেই এগিয়ে যাও!";
+        } else if (percent >= 50) {
+            grade = "খুব ভালো চেষ্টা! 👍";
+            msg = "তুমি ভালো করেছ, তবে আরেকটু অনুশীলন করলে ১০০% স্কোর করতে পারবে।";
+        }
+
+        document.getElementById('grade-text').innerText = grade;
+        document.getElementById('result-message').innerText = msg;
+
+        // Render Answer Review
+        const reviewList = document.getElementById('review-list');
+        reviewList.innerHTML = '';
+        userHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = `review-item ${item.isCorrect ? 'rev-correct' : 'rev-wrong'}`;
+            div.innerHTML = `
+                <p><strong>${index + 1}. ${item.question}</strong></p>
+                <p style="margin-top:4px; color: ${item.isCorrect ? '#15803d' : '#b91c1c'};">
+                    তোমার উত্তর: ${item.userAns} ${item.isCorrect ? '✅' : '❌'}
+                </p>
+                ${!item.isCorrect ? `<p style="color:#15803d;">সঠিক উত্তর: <strong>${item.correctAns}</strong></p>` : ''}
+            `;
+            reviewList.appendChild(div);
+        });
+
+        document.getElementById('retry-btn').onclick = () => startQuiz(currentCategory);
+    }
+
+    function goHome() {
+        clearInterval(timer);
+        switchScreen('home-screen');
+    }
+
+    initHome();
 </script>
 
 </body>
