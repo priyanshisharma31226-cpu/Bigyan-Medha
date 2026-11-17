@@ -1,257 +1,186 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#5636c9">
-<title>বিজ্ঞান মেধা | Class 8</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#f4f1ff;color:#292344;font-family:Arial,"Noto Sans Bengali",sans-serif}
-header{background:linear-gradient(135deg,#5030bd,#9268f5);color:white;text-align:center;padding:25px 12px;border-radius:0 0 25px 25px}
-header h1{margin:0;font-size:29px}
-header p{margin:8px 0 0}
-main{max-width:700px;margin:18px auto;padding:0 13px}
-.card{background:white;padding:19px;border-radius:17px;margin-bottom:15px;box-shadow:0 5px 20px #33205c12}
-h2{font-size:20px;margin:0 0 14px}
-label{display:block;font-weight:bold;margin:13px 0 7px}
-select{width:100%;padding:13px;border:1px solid #d9d1f4;border-radius:10px;background:white;font-size:16px}
-button{border:0;border-radius:11px;padding:13px 16px;font-size:15px;font-weight:bold;cursor:pointer}
-.primary{background:#6744d5;color:white;width:100%;margin-top:15px}
-.secondary{background:#eee9ff;color:#5735c3}
-.option{display:block;width:100%;text-align:left;background:#f5f2ff;color:#30264d;margin:9px 0;border:2px solid transparent}
-.option.correct{background:#e4f8e9;border-color:#26a45b;color:#176b37}
-.option.wrong{background:#ffeded;border-color:#df5555;color:#a21e1e}
-.option:disabled{opacity:1}
-.small{font-size:13px;color:#77718b}
-.progress{height:9px;background:#eee9ff;border-radius:20px;overflow:hidden;margin:12px 0}
-.progress div{height:100%;background:#7652e8;width:0%}
-#sets,#quiz,#result{display:none}
-#feedback{display:none;padding:13px;border-radius:10px;margin-top:12px;line-height:1.7}
-.good{background:#e5f8eb;color:#176b36}
-.bad{background:#fff0e9;color:#9b3b19}
-.setgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.setbtn{background:#eee9ff;color:#5636c9}
-footer{text-align:center;color:#888;padding:20px;font-size:13px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অষ্টম শ্রেণি - পরিবেশ ও বিজ্ঞান কুইজ</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #80deea);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            color: #00796b;
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: #f1f8e9;
+            border: 2px solid #c8e6c9;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.3s;
+        }
+        .options button:hover {
+            background: #dcedc8;
+            border-color: #8bc34a;
+        }
+        .options button.correct {
+            background: #c8e6c9 !important;
+            border-color: #4caf50 !important;
+            color: #1b5e20;
+        }
+        .options button.wrong {
+            background: #ffcdd2 !important;
+            border-color: #f44336 !important;
+            color: #b71c1c;
+        }
+        #next-btn, #restart-btn {
+            display: none;
+            width: 100%;
+            padding: 12px;
+            background: #00796b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #next-btn:hover, #restart-btn:hover {
+            background: #004d40;
+        }
+        .score-card {
+            text-align: center;
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
 
-<header>
-<h1>🔬 বিজ্ঞান মেধা</h1>
-<p>WBBSE Class 8 | পরিবেশ ও বিজ্ঞান</p>
-<p>শিখি • অনুশীলন করি • সফল হই</p>
-</header>
-
-<main>
-<section class="card" id="home">
-<h2>📚 অধ্যায় নির্বাচন</h2>
-<label for="chapter">অধ্যায় বেছে নাও</label>
-<select id="chapter"></select>
-<label for="model">প্রশ্নের মডেল</label>
-<select id="model">
-<option value="all">সব মডেল</option>
-<option value="WBBSE">WBBSE Model</option>
-<option value="RM">Roy & Martin Model</option>
-</select>
-<button class="primary" onclick="openSets()">সেট নির্বাচন করো →</button>
-</section>
-
-<section class="card" id="sets">
-<h2 id="setHeading">অনুশীলন সেট</h2>
-<p class="small">প্রতি সেটে ২০টি প্রশ্নের লক্ষ্য</p>
-<div class="setgrid" id="setGrid"></div>
-<button class="secondary" onclick="goHome()" style="width:100%;margin-top:15px">← অধ্যায় পরিবর্তন</button>
-</section>
-
-<section class="card" id="quiz">
-<div class="small" id="modelName"></div>
-<div class="small" id="setInfo"></div>
-<div class="progress"><div id="bar"></div></div>
-<p class="small" id="counter"></p>
-<h2 id="question"></h2>
-<div id="options"></div>
-<div id="feedback"></div>
-<button class="primary" id="next" onclick="nextQuestion()" style="display:none">পরের প্রশ্ন →</button>
-<button class="secondary" onclick="goSets()" style="width:100%;margin-top:10px">সেট তালিকায় ফিরে যাও</button>
-</section>
-
-<section class="card" id="result">
-<h2>🎉 তোমার ফলাফল</h2>
-<h1 id="score" style="color:#6744d5"></h1>
-<p id="message"></p>
-<button class="primary" onclick="goSets()">অন্য সেট অনুশীলন করো</button>
-<button class="secondary" onclick="goHome()" style="width:100%;margin-top:10px">অন্য অধ্যায় বেছে নাও</button>
-</section>
-</main>
-
-<footer>বিজ্ঞান মেধা • Class 8 Learning App</footer>
+<div class="container" id="quiz-box">
+    <h1>অষ্টম শ্রেণি: পরিবেশ ও বিজ্ঞান কুইজ</h1>
+    <div id="question-container">
+        <div class="question" id="question-text">প্রশ্ন লোড হচ্ছে...</div>
+        <div class="options" id="options-container"></div>
+    </div>
+    <button id="next-btn" onclick="nextQuestion()">পরবর্তী প্রশ্ন</button>
+</div>
 
 <script>
-const chapters=[
-"ভৌত পরিবেশ",
-"মৌল, যৌগ ও রাসায়নিক বিক্রিয়া",
-"কয়েকটি গ্যাসের পরিচিতি",
-"প্রকৃতিতে ও জীবজগতে কার্বন যৌগ",
-"প্রাকৃতিক ঘটনা ও তার বিশ্লেষণ",
-"জীবদেহের গঠন",
-"অণুজীবের জগৎ",
-"মানুষের খাদ্য ও খাদ্য উৎপাদন",
-"অন্তঃক্ষরা গ্রন্থি ও বয়ঃসন্ধি",
-"জীববৈচিত্র্য, পরিবেশের সংকট ও বিপন্ন প্রাণী সংরক্ষণ",
-"আমাদের চারপাশের পরিবেশ ও উদ্ভিদ জগৎ"
-];
+    const quizData = [
+        {
+            question: "১. তাপ প্রয়োগে সাধারণত পদার্থের আয়তন কী হয়?",
+            options: ["কমে যায়", "বেড়ে যায়", "একই থাকে", "প্রথমে বাড়ে পরে কমে"],
+            answer: 1
+        },
+        {
+            question: "২. কোন কোষ অঙ্গাণুকে 'কোষের পাওয়ার হাউস' বলা হয়?",
+            options: ["রাইবোজোম", "মাইটোকন্ড্রিয়া", "গলগি বডি", "নিউক্লিয়াস"],
+            answer: 1
+        },
+        {
+            question: "৩. বায়ুমণ্ডলে সবচেয়ে বেশি পরিমাণে কোন গ্যাসটি থাকে?",
+            options: ["অক্সিজেন", "নাইট্রোজেন", "কার্বন ডাইঅক্সাইড", "আর্গন"],
+            answer: 1
+        },
+        {
+            question: "৪. জলের অণুতে হাইড্রোজেন ও অক্সিজেনের পরমাণুর অনুপাত কত?",
+            options: ["১:২", "২:১", "১:১", "২:২"],
+            answer: 1
+        },
+        {
+            question: "৫. মরিচা পড়ার জন্য নিচের কোন দুটি উপাদান আবশ্যিক?",
+            options: ["জল ও অক্সিজেন", "নাইট্রোজেন ও হিলিয়াম", "হাইড্রোজেন ও কার্বন ডাইঅক্সাইড", "শুধুমাত্র জল"],
+            answer: 0
+        }
+    ];
 
-/* নতুন প্রশ্ন যোগের নিয়ম:
-{
- chapter:0, set:1, model:"WBBSE",
- q:"প্রশ্ন এখানে লিখুন",
- options:["বিকল্প A","বিকল্প B","বিকল্প C","বিকল্প D"],
- answer:0,
- explain:"উত্তরের ব্যাখ্যা"
-}
-chapter: 0 থেকে 10
-set: 1 থেকে 5
-model: WBBSE অথবা RM
-*/
+    let currentQuestionIndex = 0;
+    let score = 0;
 
-const questions=[
-{chapter:0,set:1,model:"WBBSE",q:"বল প্রয়োগ করলে বস্তুর কী পরিবর্তন হতে পারে?",options:["আকার বা গতির পরিবর্তন","শুধু রং পরিবর্তন","ভর বৃদ্ধি","কোনো পরিবর্তন নয়"],answer:0,explain:"বল প্রয়োগে বস্তুর আকার, গতি বা গতির দিক পরিবর্তিত হতে পারে।"},
-{chapter:0,set:1,model:"RM",q:"স্থির ফুটবলকে লাথি মারলে সেটি চলতে শুরু করে কেন?",options:["তাপের জন্য","বল প্রয়োগের জন্য","আলোর জন্য","শব্দের জন্য"],answer:1,explain:"পায়ের বল ফুটবলের উপর কাজ করে এবং বলটি চলতে শুরু করে।"},
-{chapter:0,set:1,model:"WBBSE",q:"চাপের SI একক কী?",options:["জুল","নিউটন","পাস্কাল","ওয়াট"],answer:2,explain:"চাপের SI একক পাস্কাল।"},
-{chapter:0,set:1,model:"RM",q:"পৃথিবী বস্তুকে নিজের দিকে টানে কোন বলের সাহায্যে?",options:["ঘর্ষণ বল","মহাকর্ষ বল","পেশি বল","স্থিতিস্থাপক বল"],answer:1,explain:"পৃথিবীর মহাকর্ষ বল বস্তুকে নিজের দিকে আকর্ষণ করে।"},
-{chapter:0,set:1,model:"WBBSE",q:"তাপের SI একক কী?",options:["জুল","নিউটন","পাস্কাল","মিটার"],answer:0,explain:"তাপ শক্তির একটি রূপ। শক্তির SI একক জুল।"},
-{chapter:0,set:1,model:"RM",q:"তাপ সাধারণত কোন দিক থেকে কোন দিকে যায়?",options:["ঠান্ডা থেকে গরমে","গরম থেকে ঠান্ডায়","নিচ থেকে উপরে সবসময়","কোনো দিকেই নয়"],answer:1,explain:"তাপ স্বাভাবিকভাবে বেশি তাপমাত্রা থেকে কম তাপমাত্রার দিকে প্রবাহিত হয়।"},
-{chapter:0,set:1,model:"WBBSE",q:"আলো কোন মাধ্যমে চলতে পারে?",options:["শুধু কঠিন","শুধু তরল","শূন্যস্থানেও","শুধু গ্যাস"],answer:2,explain:"আলো চলার জন্য বস্তুগত মাধ্যমের প্রয়োজন হয় না।"},
-{chapter:0,set:1,model:"RM",q:"সমতল দর্পণে প্রতিবিম্ব কেমন হয়?",options:["বাস্তব ও উল্টো","অবাস্তব ও সোজা","বাস্তব ও সোজা","সবসময় ছোট"],answer:1,explain:"সমতল দর্পণে প্রতিবিম্ব অবাস্তব, সোজা এবং বস্তুর সমান আকারের হয়।"}
-];
+    const questionText = document.getElementById("question-text");
+    const optionsContainer = document.getElementById("options-container");
+    const nextBtn = document.getElementById("next-btn");
 
-let selectedChapter=0,selectedSet=1,current=0,score=0;
-let quizQuestions=[],answered=false;
+    function loadQuestion() {
+        nextBtn.style.display = "none";
+        let currentQuiz = quizData[currentQuestionIndex];
+        questionText.innerText = currentQuiz.question;
+        optionsContainer.innerHTML = "";
 
-const chapterSelect=document.getElementById("chapter");
-chapters.forEach((c,i)=>{
- const option=document.createElement("option");
- option.value=i;
- option.textContent=(i+1)+". "+c;
- chapterSelect.appendChild(option);
-});
+        currentQuiz.options.forEach((option, index) => {
+            const btn = document.createElement("button");
+            btn.innerText = option;
+            btn.onclick = () => selectOption(index, btn);
+            optionsContainer.appendChild(btn);
+        });
+    }
 
-function hideAll(){
- ["home","sets","quiz","result"].forEach(id=>{
-  document.getElementById(id).style.display="none";
- });
-}
-function goHome(){
- hideAll();
- document.getElementById("home").style.display="block";
-}
-function goSets(){
- hideAll();
- document.getElementById("sets").style.display="block";
-}
-function openSets(){
- selectedChapter=Number(chapterSelect.value);
- hideAll();
- document.getElementById("sets").style.display="block";
- document.getElementById("setHeading").textContent=chapters[selectedChapter]+" — সেট নির্বাচন";
- const grid=document.getElementById("setGrid");
- grid.innerHTML="";
- for(let i=1;i<=5;i++){
-  const button=document.createElement("button");
-  button.className="setbtn";
-  button.textContent="Set "+i+" • ২০টি MCQ";
-  button.onclick=()=>startSet(i);
-  grid.appendChild(button);
- }
-}
-function startSet(setNo){
- selectedSet=setNo;
- const model=document.getElementById("model").value;
- quizQuestions=questions.filter(q=>
-  q.chapter===selectedChapter &&
-  q.set===setNo &&
-  (model==="all"||q.model===model)
- );
- if(quizQuestions.length===0){
-  alert("এই সেটের প্রশ্ন এখনও প্রশ্নব্যাংকে যোগ করা হয়নি।");
-  return;
- }
- if(quizQuestions.length<20){
-  alert("এই সেটে এখন "+quizQuestions.length+"টি প্রশ্ন আছে। ২০টি প্রশ্ন পূর্ণ করতে আরও প্রশ্ন যোগ করতে হবে।");
- }
- quizQuestions=quizQuestions.slice().sort(()=>Math.random()-.5);
- current=0;
- score=0;
- hideAll();
- document.getElementById("quiz").style.display="block";
- showQuestion();
-}
-function showQuestion(){
- answered=false;
- const q=quizQuestions[current];
- document.getElementById("counter").textContent="প্রশ্ন "+(current+1)+" / "+quizQuestions.length;
- document.getElementById("setInfo").textContent="Set "+selectedSet+" | "+chapters[selectedChapter];
- document.getElementById("bar").style.width=((current+1)/quizQuestions.length*100)+"%";
- document.getElementById("modelName").textContent=q.model==="RM"?"Roy & Martin Model":"WBBSE Model";
- document.getElementById("question").textContent=q.q;
- const area=document.getElementById("options");
- area.innerHTML="";
- q.options.forEach((option,index)=>{
-  const button=document.createElement("button");
-  button.className="option";
-  button.textContent=String.fromCharCode(65+index)+". "+option;
-  button.onclick=()=>checkAnswer(index);
-  area.appendChild(button);
- });
- const feedback=document.getElementById("feedback");
- feedback.style.display="none";
- feedback.className="";
- document.getElementById("next").style.display="none";
-}
-function checkAnswer(selected){
- if(answered)return;
- answered=true;
- const q=quizQuestions[current];
- const buttons=document.querySelectorAll(".option");
- buttons.forEach((button,index)=>{
-  button.disabled=true;
-  if(index===q.answer)button.classList.add("correct");
-  if(index===selected&&selected!==q.answer)button.classList.add("wrong");
- });
- const feedback=document.getElementById("feedback");
- if(selected===q.answer){
-  score++;
-  feedback.className="good";
-  feedback.innerHTML="সঠিক উত্তর! সাবাশ!<br>"+q.explain;
- }else{
-  feedback.className="bad";
-  feedback.innerHTML="আবার চেষ্টা করবে!<br>সঠিক উত্তর: "+q.options[q.answer]+"<br>"+q.explain;
- }
- feedback.style.display="block";
- const next=document.getElementById("next");
- next.style.display="block";
- next.textContent=current===quizQuestions.length-1?"ফলাফল দেখো":"Next Question →";
-}
-function nextQuestion(){
- current++;
- if(current<quizQuestions.length){
-  showQuestion();
- }else{
-  showResult();
- }
-}
-function showResult(){
- hideAll();
- document.getElementById("result").style.display="block";
- document.getElementById("score").textContent=score+" / "+quizQuestions.length;
- const percentage=Math.round(score/quizQuestions.length*100);
- document.getElementById("message").textContent=
-  percentage>=80?"অসাধারণ! তুমি সত্যিই একজন সুপারস্টার!":
-  percentage>=50?"খুব ভালো! আরও একটু অনুশীলন করো।":
-  "চিন্তা নেই! আবার চেষ্টা করো। তুমি পারবে!";
-}
+    function selectOption(selectedIndex, selectedButton) {
+        let currentQuiz = quizData[currentQuestionIndex];
+        const buttons = optionsContainer.getElementsByTagName("button");
+
+        if (selectedIndex === currentQuiz.answer) {
+            selectedButton.classList.add("correct");
+            score++;
+        } else {
+            selectedButton.classList.add("wrong");
+            buttons[currentQuiz.answer].classList.add("correct");
+        }
+
+        for (let btn of buttons) {
+            btn.disabled = true;
+        }
+
+        nextBtn.style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < quizData.length) {
+            loadQuestion();
+        } else {
+            document.getElementById("quiz-box").innerHTML = `
+                <div class="score-card">
+                    <h1>কুইজ সমাপ্ত! 🎉</h1>
+                    <p>আপনার মোট স্কোর: <b>${score}</b> / ${quizData.length}</p>
+                    <button id="restart-btn" style="display:block;" onclick="location.reload()">আবার খেলুন</button>
+                </div>
+            `;
+        }
+    }
+
+    loadQuestion();
 </script>
+
 </body>
 </html>
